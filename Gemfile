@@ -11,13 +11,14 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'devise'
 gem 'devise-bootstrap-views'
-gem 'faker'
 
 group :development, :test do
   gem 'rubocop'
   gem 'byebug'
   gem 'sqlite3'
   gem 'rspec-rails', '~> 3.5'
+  gem 'faker'
+  gem 'factory_girl_rails'
 end
 
 group :development do
