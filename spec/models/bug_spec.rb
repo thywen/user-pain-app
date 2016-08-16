@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Bug, type: :model do
+describe Bug, type: :model do
   describe '#ticket_number' do
     let(:bug) { build(:bug) }
     subject { bug.save }
@@ -16,7 +16,7 @@ RSpec.describe Bug, type: :model do
     end
 
     context 'uniqueness' do
-      let(:bug) { Bug.new(ticket_number: ticket_number).save }
+      let(:bug) { Bug.new(ticket_number: ticket_number) }
       let(:ticket_number) { 1234 }
       before do
         Bug.new(ticket_number: ticket_number).save
