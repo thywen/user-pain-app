@@ -1,3 +1,10 @@
-<div class="col-md-6 col-md-offset-2">
-  <h1>Bug Index</h1>
+<div class="col-md-8 col-md-offset-2">
+  <% @bugs.each do |bug| %>
+      <div class="row well">
+        <%= link_to bug.ticket_number, bug_path(bug) %>
+        <span class="score_index">
+          Score: <%= bug.score %>
+        </span>
+      </div>
+  <% end %>
 </div>
