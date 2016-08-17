@@ -1,15 +1,46 @@
-class BugController < ApplicationController
+class BugsController < ApplicationController
   def index
     @bugs = Bug.all
   end
 
   def new
+    @bug = Bug.new
     @options_for_priority = options_for_priorities
     @options_for_type = options_for_type
     @options_for_likelyhood = options_for_likelyhood
   end
 
+  def create
+    params = add_score(bug_params)
+    @bug = Bug.new(params)
+    if @bug.save
+      flash[:succes] = 'Bug was created'
+      redirect_to bug_path(@bug)
+    else
+      render :new
+    end
+  end
+
+  def show
+  end
+
   private
+
+  def bug_params
+    params.require(:bug).permit(:ticket_number, :bug_title, :priority, :bug_type, :likelyhood)
+  end
+
+  def add_score(params)
+    params[:score] = (params[:priority].to_i + params[:bug_type].to_i + params[:likelyhood].to_i) *
+                     100 / number_of_options
+    params
+  end
+
+  def number_of_options
+    options_for_priorities.size +
+      options_for_type.size +
+      options_for_likelyhood.size
+  end
 
   def options_for_priorities
     [
