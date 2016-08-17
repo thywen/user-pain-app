@@ -1,0 +1,26 @@
+<div class="well col-md-8 col-md-offset-2">
+  <div>
+    <h1><%= "#{@bug.ticket_number} #{@bug.bug_title}" %></h1>
+  </div>
+  <div class="score">
+    Score: <%= @bug.score %>
+  </div>
+  <hr />
+  <div>
+    Type: <%= @bug.bug_type %>
+  </div>
+  <div>
+    Likelyhood: <%= @bug.likelyhood %>
+  </div>
+  <div>
+    Priority: <%= @bug.priority %>
+  </div>
+
+  <div class="bug_actions">
+    <%= link_to 'Edit Bug', edit_bug_path(@bug), class: 'btn btn-xs btn-primary' %>
+    <%= link_to 'Delete Bug', bug_path(@bug),
+                method: :delete,
+                data: { confirm: 'Are you sure?' }, class: 'btn btn-xs btn-danger' %>
+    <%= link_to 'Back to overview', bugs_path, class: 'btn btn-xs' %>
+  </div>
+</div>

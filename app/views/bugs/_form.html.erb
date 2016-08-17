@@ -1,0 +1,25 @@
+<%= form_for @bug do |f| %>
+    <p>
+      <%= f.label :ticket_number %>
+      <%= f.text_field :ticket_number %>
+    </p>
+    <p>
+      <%= f.label :bug_title %>
+      <%= f.text_area :bug_title %>
+    </p>
+    <p>
+      <%= f.label :priority %>
+      <%= f.select :priority, @options_for_priority %>
+    </p>
+    <p>
+      <%= f.label :bug_type %>
+      <%= f.select :bug_type, @options_for_type %>
+    </p>
+    <p>
+      <%= f.label :likelyhood %>
+      <%= f.select :likelyhood, @options_for_likelyhood %>
+    </p>
+    <p>
+      <%= f.submit 'Add Bug' %>
+    </p>
+<% end %>
