@@ -3,7 +3,7 @@ class BugsController < ApplicationController
   before_action :bug_options, only: [:edit, :new]
 
   def index
-    @bugs = Bug.all
+    @bugs = Bug.order(score: :desc)
   end
 
   def new
