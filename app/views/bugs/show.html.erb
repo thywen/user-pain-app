@@ -1,1 +1,18 @@
-Blaaa
+<div class="well col-md-8 col-md-offset-2">
+  <div>
+    <h1><%= "#{@bug.ticket_number} #{@bug.bug_title}" %></h1>
+  </div>
+  <div class="score">
+    Score: <%= @bug.score %>
+  </div>
+  <hr />
+  <div>
+    Type: <%= @bug.bug_type %>
+  </div>
+  <div>
+    Likelyhood: <%= @bug.likelyhood %>
+  </div>
+  <div>
+    Priority: <%= @bug.priority %>
+  </div>
+</div>
