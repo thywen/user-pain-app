@@ -2,9 +2,18 @@
   <% @bugs.each do |bug| %>
       <div class="row well">
         <%= link_to bug.ticket_number, bug_path(bug) %>
+
         <span class="score_index">
           Score: <%= bug.score %>
         </span>
+
+        <div class="bug_actions">
+          <%= link_to 'Edit this bug', edit_bug_path(bug), class: "btn btn-xs btn-primary" %>
+          <%= link_to 'Delete this bug', bug_path(bug),
+                      method: :delete,
+                      data: { confirm: "Are you sure?" }, class: "btn btn-xs btn-danger" %>
+        </div>
       </div>
+
   <% end %>
 </div>

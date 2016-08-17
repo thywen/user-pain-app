@@ -1,13 +1,13 @@
 class BugsController < ApplicationController
+  before_action :find_bug, only: [:edit, :update, :destroy, :show]
+  before_action :bug_options, only: [:edit, :new]
+
   def index
     @bugs = Bug.all
   end
 
   def new
     @bug = Bug.new
-    @options_for_priority = options_for_priorities
-    @options_for_type = options_for_type
-    @options_for_likelyhood = options_for_likelyhood
   end
 
   def create
@@ -22,10 +22,38 @@ class BugsController < ApplicationController
   end
 
   def show
-    @bug = Bug.find(params[:id])
+  end
+
+  def edit
+  end
+
+  def update
+    params = add_score(bug_params)
+    if @bug.update(params)
+      flash[:success] = 'Bug was updated'
+      redirect_to bug_path(@bug)
+    else
+      render :edit
+    end
+  end
+
+  def destroy
+    @bug.destroy
+    flash[:danger] = 'Bug was deleted'
+    redirect_to bugs_path
   end
 
   private
+
+  def bug_options
+    @options_for_priority = options_for_priorities
+    @options_for_type = options_for_type
+    @options_for_likelyhood = options_for_likelyhood
+  end
+
+  def find_bug
+    @bug = Bug.find(params[:id])
+  end
 
   def bug_params
     params.require(:bug).permit(:ticket_number, :bug_title, :priority, :bug_type, :likelyhood)
