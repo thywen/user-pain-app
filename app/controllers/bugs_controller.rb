@@ -11,8 +11,7 @@ class BugsController < ApplicationController
   end
 
   def create
-    params = add_score(bug_params)
-    @bug = Bug.new(params)
+    @bug = Bug.new(bug_params_with_max_score(bug_params))
     if @bug.save
       flash[:succes] = 'Bug was created'
       redirect_to bug_path(@bug)
@@ -28,8 +27,7 @@ class BugsController < ApplicationController
   end
 
   def update
-    params = add_score(bug_params)
-    if @bug.update(params)
+    if @bug.update(bug_params_with_max_score(bug_params))
       flash[:success] = 'Bug was updated'
       redirect_to bug_path(@bug)
     else
@@ -45,6 +43,11 @@ class BugsController < ApplicationController
 
   private
 
+  def bug_params_with_max_score(params)
+    params[:max_score] = number_of_options
+    params
+  end
+
   def bug_options
     @options_for_priority = options_for_priorities
     @options_for_type = options_for_type
@@ -57,12 +60,6 @@ class BugsController < ApplicationController
 
   def bug_params
     params.require(:bug).permit(:ticket_number, :bug_title, :priority, :bug_type, :likelyhood)
-  end
-
-  def add_score(params)
-    params[:score] = (params[:priority].to_i + params[:bug_type].to_i + params[:likelyhood].to_i) *
-                     100 / number_of_options
-    params
   end
 
   def number_of_options

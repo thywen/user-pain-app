@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160817164133) do
+ActiveRecord::Schema.define(version: 20160818104241) do
 
   create_table "bugs", force: :cascade do |t|
     t.string   "ticket_number"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 20160817164133) do
     t.integer  "user_id"
     t.datetime "created_at",    null: false
     t.datetime "updated_at",    null: false
+    t.integer  "max_score"
   end
 
   create_table "users", force: :cascade do |t|

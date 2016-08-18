@@ -16,10 +16,10 @@ describe Bug, type: :model do
     end
 
     context 'uniqueness' do
-      let(:bug) { Bug.new(ticket_number: ticket_number) }
+      let(:bug) { build(:bug_with_fixed_ticker_number) }
       let(:ticket_number) { 1234 }
       before do
-        Bug.new(ticket_number: ticket_number).save
+        build(:bug_with_fixed_ticker_number).save
       end
 
       it { is_expected.to be_falsey }
