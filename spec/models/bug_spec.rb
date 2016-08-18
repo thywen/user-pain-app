@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 describe Bug, type: :model do
+  let(:bug) { build(:bug) }
   describe '#ticket_number' do
-    let(:bug) { build(:bug) }
     subject { bug.save }
 
     context 'correct data' do
@@ -16,13 +16,20 @@ describe Bug, type: :model do
     end
 
     context 'uniqueness' do
-      let(:bug) { Bug.new(ticket_number: ticket_number) }
+      let(:bug) { build(:bug_with_fixed_ticker_number) }
       let(:ticket_number) { 1234 }
       before do
-        Bug.new(ticket_number: ticket_number).save
+        build(:bug_with_fixed_ticker_number).save
       end
 
       it { is_expected.to be_falsey }
     end
+  end
+
+  describe '#calculate_score' do
+    let(:score) { (bug.priority + bug.bug_type + bug.likelyhood) * 100 / bug.max_score }
+    subject { bug.calculate_score }
+
+    it { is_expected.to eql score }
   end
 end
