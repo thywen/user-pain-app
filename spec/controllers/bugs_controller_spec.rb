@@ -28,16 +28,12 @@ RSpec.describe BugsController, type: :controller do
       let(:bug) { bugs[rand number_of_bugs] }
       before(:each) { get :show, id: bug.id }
 
-      describe 'success' do
-        subject { response }
-
-        it { is_expected.to be_success }
+      it 'success' do
+        expect(response).to be_success
       end
 
-      describe 'assign bug' do
-        subject { assigns(:bug) }
-
-        it { is_expected.to eq bug }
+      it 'assign bug' do
+        expect(assigns(:bug)).to eq bug
       end
     end
 
@@ -72,6 +68,68 @@ RSpec.describe BugsController, type: :controller do
       it 're-renders the new method' do
         post :create, bug: bug_params
         expect(response).to render_template :new
+      end
+    end
+
+    describe 'GET #new' do
+      it 'assigns a new business to @business' do
+        get :new
+        expect(assigns(:bug)).to be_a_new(Bug)
+      end
+    end
+
+    describe '#update' do
+      let(:bug) { bugs[rand number_of_bugs] }
+      let(:updated_bug) { Bug.find(bug.id) }
+
+      before(:each) do
+        patch :update, id: bug.id, bug: new_bug
+      end
+
+      context 'valid' do
+        let(:new_bug) { attributes_for(:bug) }
+
+        it 'updated the ticket_number' do
+          expect(updated_bug.ticket_number).to eql new_bug[:ticket_number]
+        end
+
+        it 'kept the id' do
+          expect(updated_bug.id).to eql bug.id
+        end
+      end
+
+      context 'invalid' do
+        let(:new_bug) { attributes_for(:bug_with_invalid_ticket) }
+
+        it 'is not successful' do
+          expect(response).to be_success
+        end
+
+        it 'does not update the ticket number' do
+          expect(updated_bug.ticket_number).to eql bug.ticket_number
+        end
+
+        it 'kept the id' do
+          expect(updated_bug.id).to eql bug.id
+        end
+      end
+    end
+
+    describe '#destroy' do
+      context 'when requested user exists' do
+        let(:bug) { bugs[rand number_of_bugs] }
+        before(:each) { delete :destroy, id: bug.id }
+
+        it 'removes user form DB' do
+          expect(Bug.all).not_to include bug
+          expect { bug.reload }.to raise_exception ActiveRecord::RecordNotFound
+        end
+      end
+
+      context 'when requested user does not exists' do
+        it 'throws ActiveRecord::RecordNotFound' do
+          expect { delete :destroy, id: -1 }.to raise_exception ActiveRecord::RecordNotFound
+        end
       end
     end
   end
