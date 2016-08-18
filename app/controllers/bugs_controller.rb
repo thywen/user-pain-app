@@ -1,6 +1,6 @@
 class BugsController < ApplicationController
   before_action :find_bug, only: [:edit, :update, :destroy, :show]
-  before_action :bug_options, only: [:edit, :new]
+  before_action :bug_options
 
   def index
     @bugs = Bug.order(score: :desc)

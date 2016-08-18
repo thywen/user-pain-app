@@ -47,4 +47,32 @@ RSpec.describe BugsController, type: :controller do
       end
     end
   end
+
+  describe '#create' do
+    context 'when valid' do
+      let(:bug_params) { attributes_for(:bug) }
+
+      it 'creates article' do
+        expect { post :create, bug: bug_params }.to change(Bug, :count).by(1)
+      end
+
+      it 'redirects to the new bug' do
+        post :create, bug: bug_params
+        expect(response).to redirect_to Bug.last
+      end
+    end
+
+    context 'when invalid' do
+      let(:bug_params) { attributes_for(:bug_with_invalid_ticket) }
+
+      it 'does not create the article' do
+        expect { post :create, bug: bug_params }.to_not change(Bug, :count)
+      end
+
+      it 're-renders the new method' do
+        post :create, bug: bug_params
+        expect(response).to render_template :new
+      end
+    end
+  end
 end
