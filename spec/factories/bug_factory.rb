@@ -1,10 +1,10 @@
 FactoryGirl.define do
   factory :bug do
-    ticket_number "#{Faker::Hacker.abbreviation}-#{1000 + Random.rand(999)}"
-    priority 4
-    likelyhood 3
-    bug_type 2
-    max_score 2
+    sequence(:ticket_number) { "#{Faker::Hacker.abbreviation}-#{1000 + Random.rand(999)}" }
+    priority Random.rand(5) + 1
+    likelyhood Random.rand(5) + 1
+    bug_type Random.rand(7) + 1
+    max_score 22
   end
 
   factory :bug_with_invalid_ticket, parent: :bug do
