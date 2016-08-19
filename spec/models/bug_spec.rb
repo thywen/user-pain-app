@@ -26,6 +26,11 @@ describe Bug, type: :model do
     end
   end
 
+  describe('#Bug title') do
+    it { is_expected.to validate_presence_of(:bug_title) }
+    it { is_expected.to validate_length_of(:bug_title).is_at_least(10) }
+  end
+
   describe '#calculate_score' do
     let(:score) { (bug.priority + bug.bug_type + bug.likelyhood) * 100 / bug.max_score }
     subject { bug.calculate_score }
